@@ -30,8 +30,9 @@ public class CharacterController2D : MonoBehaviour
     private void Awake()
     {
         _this = gameObject;
+        rb = GetComponent<Rigidbody2D>();
 
-        if(!Interface.CheckRequireComponents()) this.enabled = false;
+        if (!Interface.CheckRequireComponents()) this.enabled = false;
     }
 
     private void Update()
@@ -42,7 +43,7 @@ public class CharacterController2D : MonoBehaviour
 
     private void CalculateMovement()
     {
-        moveInput = Input.GetAxis("Horizonatal");
+        moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveInput * horizontalVelocity, rb.velocity.y);
     }
 
@@ -74,12 +75,16 @@ public class CharacterController2D : MonoBehaviour
     private bool CheckGround() => Physics2D.OverlapCircle(feetPos.position, groundCheckCircleRadius, whatIsGround);
 }
 
+
+
 public static class Interface
 {
     public static bool CheckRequireComponents()
     {
-        if (CharacterController2D._this.GetComponent<Collider2D>() == null) { Debug.LogWarning("CharacterController2D: Collider2D is required!"); return false; }
-        if (CharacterController2D._this.GetComponent<Rigidbody2D>() == null) { Debug.LogWarning("CharacterController2D: Rigidbody2D is required!"); return false; }
+        if (CharacterController2D._this.GetComponent<Collider2D>() == null) { Debug.LogError("CharacterController2D: Collider2D is required!"); return false; }
+        if (CharacterController2D._this.GetComponent<Rigidbody2D>() == null) { Debug.LogError("CharacterController2D: Rigidbody2D is required!"); return false; }
+
+        CharacterController2D._this.GetComponent<Rigidbody2D>().freezeRotation = true;
 
         return true;
     }
