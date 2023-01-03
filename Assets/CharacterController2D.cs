@@ -30,9 +30,10 @@ public class CharacterController2D : MonoBehaviour
     private void Awake()
     {
         _this = gameObject;
-        rb = GetComponent<Rigidbody2D>();
-
+        
         if (!Interface.CheckRequireComponents()) this.enabled = false;
+        
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
